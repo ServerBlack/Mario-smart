@@ -123,7 +123,7 @@ public class Ventana extends javax.swing.JFrame {
 
     private void llenarMatriz() throws FileNotFoundException, IOException {                
         
-        File archivo = new File("/home/ivan/NetBeansProjects/Mario-smart/Mario-smart/sources/Input.txt");
+        File archivo = new File("/home/ivanmtoroc/NetBeansProjects/Mario-smart/Mario-smart/sources/Input.txt");
         FileReader fr = new FileReader(archivo);
         BufferedReader br = new BufferedReader(fr);
         
@@ -139,7 +139,7 @@ public class Ventana extends javax.swing.JFrame {
                 JLabel boton = new JLabel();
                 boton.setSize(60, 60);
                 matriz[j][i] = values[i].charAt(0) - 48;
-                ImageIcon imagen = new ImageIcon("/home/ivan/NetBeansProjects/Mario-smart/Mario-smart/sources/" + values[i].charAt(0) + ".png");
+                ImageIcon imagen = new ImageIcon("/home/ivanmtoroc/NetBeansProjects/Mario-smart/Mario-smart/sources/" + values[i].charAt(0) + ".png");
                 Icon icono = new ImageIcon(imagen.getImage().getScaledInstance(boton.getHeight(), boton.getWidth(), Image.SCALE_DEFAULT));
                 boton.setIcon(icono);
                 panelMatriz.add(boton);
