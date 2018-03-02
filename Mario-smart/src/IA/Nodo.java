@@ -4,11 +4,23 @@ public class Nodo {
     
     private int x;
     private int y;
+    private String camino;
     
-    public Nodo(int x, int y){
+    public Nodo(int x, int y, String camino){
         
         this.x = x;
         this.y = y;
+        this.camino = camino;
+    }
+    
+    public String getCamino(){
+        
+        return camino;
+    }
+
+    public void setCamino(String camino){
+        
+        this.camino = camino;
     }
 
     public int getX(){

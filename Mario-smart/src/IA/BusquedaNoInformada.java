@@ -5,40 +5,40 @@ import java.util.*;
 public class BusquedaNoInformada {
     
     private int[][] matriz =  new int[10][10];
+    private int[][] matrizExploracion = new int[10][10];
     
     public BusquedaNoInformada(int[][] matriz){
         
         this.matriz = matriz;
-        System.out.println("");
-        //imprimirMatriz();
+        iniciarMatrizExploracion();
     }
    
-    public String amplitud(){
+    public String amplitud(int x, int y){
         
         Queue <Nodo> cola = new LinkedList();
         
-        cola.add(new Nodo(0, 5));
-        
-        int j = 5;
-        while(j > 0){                        
-            
-            if(cola.peek() == new Nodo(4, 9)){
+        // Nodo raiz, posicion inicial del italiano.
+        cola.add(new Nodo(x, y, ""));
+        matrizExploracion[x][y] = 1;
                 
-                return "La salvaste Scorpion";
+        while(!cola.isEmpty()){                        
+            
+            if(matriz[cola.peek().getX()][cola.peek().getY()] == 5){
+                
+                return cola.peek().getCamino();
             }
             
             else {
                 
+                matrizExploracion[cola.peek().getX()][cola.peek().getY()] = 1;
                 ArrayList <Nodo> hijos = expandir(cola.peek());
-                cola.remove();
+                cola.poll();                
                 
                 for(int i = 0; i < hijos.size(); i++){
                     
                     cola.add(hijos.get(i));
                 }                
-            }
-            
-            j--;
+            }            
         }
         
         return "Fallo";
@@ -47,42 +47,42 @@ public class BusquedaNoInformada {
     private ArrayList <Nodo> expandir(Nodo raiz){
         
         ArrayList <Nodo> hijos = new ArrayList();
-        System.out.println("(" + raiz.getX() + ", " + raiz.getY() + ")");
+        // System.out.println("Nodo: (" + raiz.getX() + ", " + raiz.getY() + ")");
         
         // Baja
-        if(raiz.getY() + 1 >= 0 && raiz.getY() + 1 <= 9){
+        if(raiz.getX() + 1 >= 0 && raiz.getX() + 1 <= 9){
             
-            if(matriz[raiz.getX()][raiz.getY() + 1] != 1){
+            if(matriz[raiz.getX() + 1][raiz.getY()] != 1 && matrizExploracion[raiz.getX() + 1][raiz.getY()] != 1){
             
-                System.out.println("Baja: " + matriz[raiz.getX()][raiz.getY() + 1]);
-                hijos.add(new Nodo(raiz.getX(), raiz.getY() + 1));
+                //System.out.println("- Baja: (" + (raiz.getX() + 1) + ", " + raiz.getY() + ")");
+                hijos.add(new Nodo(raiz.getX() + 1, raiz.getY(), raiz.getCamino() + "D,"));
             }
         }
         // Derecha
-        if(raiz.getX() + 1 >= 0 && raiz.getX() + 1 <= 9){
+        if(raiz.getY() + 1 >= 0 && raiz.getY() + 1 <= 9){
             
-            if(matriz[raiz.getX() + 1][raiz.getY()] != 1){
+            if(matriz[raiz.getX()][raiz.getY() + 1] != 1 && matrizExploracion[raiz.getX()][raiz.getY() + 1] != 1){
             
-                System.out.println("Derecha: " + matriz[raiz.getX() + 1][raiz.getY()]);
-                hijos.add(new Nodo(raiz.getX() + 1, raiz.getY()));
+                //System.out.println("- Derecha: (" + raiz.getX() + ", " + (raiz.getY() + 1) + ")");
+                hijos.add(new Nodo(raiz.getX(), raiz.getY() + 1, raiz.getCamino() + "R,"));
             }            
         }
         // Izquierda
-        if(raiz.getX() - 1 >= 0 && raiz.getX() - 1 <= 9){
+        if(raiz.getY() - 1 >= 0 && raiz.getY() - 1 <= 9){
             
-            if(matriz[raiz.getX() - 1][raiz.getY()] != 1){
+            if(matriz[raiz.getX()][raiz.getY() - 1] != 1 && matrizExploracion[raiz.getX()][raiz.getY() - 1] != 1){
             
-                System.out.println("Izquierda: " + matriz[raiz.getX() - 1][raiz.getY()]);
-                hijos.add(new Nodo(raiz.getX() - 1, raiz.getY()));
+                //System.out.println("- Izquierda: (" + raiz.getX() + ", " + (raiz.getY() - 1) + ")");
+                hijos.add(new Nodo(raiz.getX(), raiz.getY() - 1, raiz.getCamino() + "L,"));
             }            
         }
         // Sube
-        if(raiz.getY() - 1 >= 0 && raiz.getY() - 1 <= 9){
+        if(raiz.getX() - 1 >= 0 && raiz.getX() - 1 <= 9){
             
-            if(matriz[raiz.getX()][raiz.getY() - 1] != 1){
+            if(matriz[raiz.getX() - 1][raiz.getY()] != 1 && matrizExploracion[raiz.getX() - 1][raiz.getY()] != 1){
             
-                System.out.println("Sube: " + matriz[raiz.getX()][raiz.getY() - 1]);
-                hijos.add(new Nodo(raiz.getX(), raiz.getY() - 1));
+                //System.out.println("- Sube: (" + (raiz.getX() - 1) + ", " + raiz.getY() + ")");
+                hijos.add(new Nodo(raiz.getX() - 1, raiz.getY(), raiz.getCamino() + "U,"));
             }
         }
         
@@ -96,6 +96,30 @@ public class BusquedaNoInformada {
            for(int j = 0; j < 10; j++){
                
                System.out.print(matriz[i][j] + " ");
+           }
+           
+           System.out.print("\n");
+       }
+    }
+
+    private void iniciarMatrizExploracion(){
+        
+        for(int i = 0; i < 10; i++){
+           
+           for(int j = 0; j < 10; j++){
+               
+               matrizExploracion[i][j] = 0;
+           }
+       }
+    }
+    
+    private void imprimirMatrizExplorada(){
+               
+       for(int i = 0; i < 10; i++){
+           
+           for(int j = 0; j < 10; j++){
+               
+               System.out.print(matrizExploracion[i][j] + " ");
            }
            
            System.out.print("\n");

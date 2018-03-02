@@ -13,6 +13,10 @@ import javax.swing.JLabel;
 public class Ventana extends javax.swing.JFrame {
     
     private int[][] matriz =  new int[10][10];
+    private JLabel[][] matrizBotones = new JLabel[10][10];
+    private Icon mario;
+    private int x;
+    private int y;
 
     public Ventana() throws IOException {
         
@@ -25,7 +29,11 @@ public class Ventana extends javax.swing.JFrame {
         
         panelMatriz.setLayout(new GridLayout(10, 10));
         llenarMatriz();
-        //imprimirMatriz();
+        
+        ImageIcon imagen = new ImageIcon("/home/ivan/NetBeansProjects/Mario-smart/Mario-smart/sources/2.png");
+        mario = new ImageIcon(imagen.getImage().getScaledInstance(60, 60, Image.SCALE_DEFAULT));
+        
+        buttonRecargar.setEnabled(false);
     }
     
     @SuppressWarnings("unchecked")
@@ -38,6 +46,7 @@ public class Ventana extends javax.swing.JFrame {
         comboBoxTipo = new javax.swing.JComboBox<>();
         comboBoxBusqueda = new javax.swing.JComboBox<>();
         buttonBuscar = new javax.swing.JButton();
+        buttonRecargar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -69,6 +78,13 @@ public class Ventana extends javax.swing.JFrame {
             }
         });
 
+        buttonRecargar.setText("Recargar");
+        buttonRecargar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                buttonRecargarMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout panelBotonesLayout = new javax.swing.GroupLayout(panelBotones);
         panelBotones.setLayout(panelBotonesLayout);
         panelBotonesLayout.setHorizontalGroup(
@@ -85,6 +101,10 @@ public class Ventana extends javax.swing.JFrame {
                         .addComponent(comboBoxBusqueda, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(comboBoxTipo, 0, 228, Short.MAX_VALUE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelBotonesLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(buttonRecargar)
+                .addContainerGap())
         );
         panelBotonesLayout.setVerticalGroup(
             panelBotonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -97,7 +117,9 @@ public class Ventana extends javax.swing.JFrame {
                 .addComponent(comboBoxBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(buttonBuscar)
-                .addContainerGap(415, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(buttonRecargar)
+                .addContainerGap(374, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -124,7 +146,7 @@ public class Ventana extends javax.swing.JFrame {
 
     private void llenarMatriz() throws FileNotFoundException, IOException {                
         
-        File archivo = new File("/home/ivanmtoroc/NetBeansProjects/Mario-smart/Mario-smart/sources/Input.txt");
+        File archivo = new File("/home/ivan/NetBeansProjects/Mario-smart/Mario-smart/sources/Input.txt");
         FileReader fr = new FileReader(archivo);
         BufferedReader br = new BufferedReader(fr);
         
@@ -139,11 +161,18 @@ public class Ventana extends javax.swing.JFrame {
                
                 JLabel boton = new JLabel();
                 boton.setSize(60, 60);
-                matriz[j][i] = values[i].charAt(0) - 48;
-                ImageIcon imagen = new ImageIcon("/home/ivanmtoroc/NetBeansProjects/Mario-smart/Mario-smart/sources/" + values[i].charAt(0) + ".png");
+                matriz[j][i] = Integer.parseInt(values[i]);
+                matrizBotones[j][i] = boton;
+                ImageIcon imagen = new ImageIcon("/home/ivan/NetBeansProjects/Mario-smart/Mario-smart/sources/" + values[i].charAt(0) + ".png");
                 Icon icono = new ImageIcon(imagen.getImage().getScaledInstance(boton.getHeight(), boton.getWidth(), Image.SCALE_DEFAULT));
                 boton.setIcon(icono);
                 panelMatriz.add(boton);
+                
+                if(matriz[j][i] == 2){
+                    
+                    x = j;
+                    y = i;
+                }
             }
                        
             linea = br.readLine();
@@ -184,16 +213,78 @@ public class Ventana extends javax.swing.JFrame {
 
     private void buttonBuscarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_buttonBuscarMouseClicked
         
+        buttonBuscar.setEnabled(false);
+        
         BusquedaNoInformada algoritmos = new BusquedaNoInformada(matriz);
         
         if(comboBoxTipo.getSelectedIndex() == 0){
             
             if(comboBoxBusqueda.getSelectedIndex() == 0){
+ 
+                String camino = algoritmos.amplitud(x, y);
                 
-                algoritmos.amplitud();
+                String[] values = camino.split(",");
+            
+                for(int i = 0; i < values.length; i++){
+               
+                    System.out.println(values[i]);
+                    
+                    if(values[i].equals("U")){
+                        
+                        matrizBotones[x][y].setIcon(null);
+                        x--;
+                        matrizBotones[x][y].setIcon(mario);
+                    }
+                    
+                    else if(values[i].equals("D")){
+                        
+                        matrizBotones[x][y].setIcon(null);
+                        x++;
+                        matrizBotones[x][y].setIcon(mario);
+                    }
+                    else if(values[i].equals("R")){
+                        
+                        matrizBotones[x][y].setIcon(null);
+                        y++;
+                        matrizBotones[x][y].setIcon(mario);
+                    }
+                    else{
+                        
+                        matrizBotones[x][y].setIcon(null);
+                        y--;
+                        matrizBotones[x][y].setIcon(mario);
+                    }
+                    
+                    try {
+                        
+                        Thread.sleep(1000);
+                        
+                    } catch (InterruptedException ex){
+                        
+                        Logger.getLogger(Ventana.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    
+                    this.paintAll(this.getGraphics()); 
+                }
+                
+                buttonRecargar.setEnabled(true);
             }
         }
     }//GEN-LAST:event_buttonBuscarMouseClicked
+
+    private void buttonRecargarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_buttonRecargarMouseClicked
+        
+        /*try {
+            
+            llenarMatriz();
+            
+        } catch (IOException ex){
+            
+            Logger.getLogger(Ventana.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        this.paintAll(this.getGraphics());*/
+    }//GEN-LAST:event_buttonRecargarMouseClicked
 
     public static void main(String args[]){
         
@@ -236,6 +327,7 @@ public class Ventana extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton buttonBuscar;
+    private javax.swing.JButton buttonRecargar;
     private javax.swing.JComboBox<String> comboBoxBusqueda;
     private javax.swing.JComboBox<String> comboBoxTipo;
     private javax.swing.JLabel labelTitulo;

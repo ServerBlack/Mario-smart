@@ -80,6 +80,11 @@
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
+              <Group type="102" alignment="1" attributes="0">
+                  <EmptySpace max="32767" attributes="0"/>
+                  <Component id="buttonRecargar" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+              </Group>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
@@ -93,7 +98,9 @@
                   <Component id="comboBoxBusqueda" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="buttonBuscar" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="415" max="32767" attributes="0"/>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <Component id="buttonRecargar" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace pref="374" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -139,6 +146,14 @@
           </Properties>
           <Events>
             <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="buttonBuscarMouseClicked"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="buttonRecargar">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Recargar"/>
+          </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="buttonRecargarMouseClicked"/>
           </Events>
         </Component>
       </SubComponents>
