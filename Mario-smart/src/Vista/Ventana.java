@@ -1,4 +1,5 @@
 package Vista;
+import IA.*;
 
 import java.awt.GridLayout;
 import java.awt.Image;
@@ -24,7 +25,7 @@ public class Ventana extends javax.swing.JFrame {
         
         panelMatriz.setLayout(new GridLayout(10, 10));
         llenarMatriz();
-        imprimirMatriz();
+        //imprimirMatriz();
     }
     
     @SuppressWarnings("unchecked")
@@ -183,8 +184,15 @@ public class Ventana extends javax.swing.JFrame {
 
     private void buttonBuscarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_buttonBuscarMouseClicked
         
-        System.out.println(comboBoxTipo.getSelectedItem());
-        System.out.println(comboBoxBusqueda.getSelectedItem());
+        BusquedaNoInformada algoritmos = new BusquedaNoInformada(matriz);
+        
+        if(comboBoxTipo.getSelectedIndex() == 0){
+            
+            if(comboBoxBusqueda.getSelectedIndex() == 0){
+                
+                algoritmos.amplitud();
+            }
+        }
     }//GEN-LAST:event_buttonBuscarMouseClicked
 
     public static void main(String args[]){
