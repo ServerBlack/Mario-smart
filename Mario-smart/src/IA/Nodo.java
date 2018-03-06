@@ -1,5 +1,7 @@
 package IA;
 
+import java.util.*;
+
 public class Nodo {
 
     private int x;
@@ -8,6 +10,7 @@ public class Nodo {
     private int yP;
     private String camino;
     private int costo;
+    private ArrayList <Integer> padres;
     
     public Nodo(int x, int y, int xP, int yP, String camino){
         
@@ -16,6 +19,17 @@ public class Nodo {
         this.xP = xP;
         this.yP = yP;
         this.camino = camino;
+    }
+    
+    public ArrayList getPadres(){
+        
+        return padres;
+    }
+
+    public void setPadre(Nodo padre){
+        
+        padres.add(padre.getX());
+        padres.add(padre.getY());
     }
     
     public String getCamino(){
@@ -76,5 +90,9 @@ public class Nodo {
     public void setCosto(int costo){
         
         this.costo = costo;
+    }
+
+    String[] split(String string) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

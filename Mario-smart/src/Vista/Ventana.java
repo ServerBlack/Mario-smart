@@ -222,18 +222,27 @@ public class Ventana extends javax.swing.JFrame {
 
         buttonBuscar.setEnabled(false);        
 
+        Busqueda algoritmos = new Busqueda(matriz);
+        
         if (comboBoxTipo.getSelectedIndex() == 0){
 
             if (comboBoxBusqueda.getSelectedIndex() == 0){
 
-                amplitud();
+                Nodo hoja = algoritmos.amplitud(x, y);
+                hacerCamino(hoja);
             }
             
-           if (comboBoxBusqueda.getSelectedIndex() == 1){
+            if (comboBoxBusqueda.getSelectedIndex() == 1){
 
-               System.out.println("Flag");
-               costoUniforme();
+               Nodo hoja = algoritmos.costoUniforme(x, y);
+               hacerCamino(hoja);
             }
+            
+            if (comboBoxBusqueda.getSelectedIndex() == 2){
+
+                Nodo hoja = algoritmos.profundidad(x, y);
+                hacerCamino(hoja);
+            }            
         }
     }//GEN-LAST:event_buttonBuscarMouseClicked
 
@@ -251,11 +260,7 @@ public class Ventana extends javax.swing.JFrame {
         this.paintAll(this.getGraphics());*/
     }//GEN-LAST:event_buttonRecargarMouseClicked
 
-    public void amplitud() {
-
-        Busqueda algoritmos = new Busqueda(matriz);
-        
-        Nodo hoja = algoritmos.amplitud(x, y);
+    public void hacerCamino(Nodo hoja){
         
         String camino = hoja.getCamino();
         
@@ -311,69 +316,7 @@ public class Ventana extends javax.swing.JFrame {
 
             buttonRecargar.setEnabled(true);
         }
-    }
-    
-    public void costoUniforme(){
-        
-        Busqueda algoritmos = new Busqueda(matriz);
-        
-        Nodo hoja = algoritmos.costoUniforme(x, y);
-        
-        String camino = hoja.getCamino();
-        
-        if(camino.equals("F")){
-            
-            // Fallo.
-        }
-        
-        else {
-
-            String[] values = camino.split(",");
-
-            for (int i = 0; i < values.length; i++){
-
-                System.out.println(values[i]);
-
-                if (values[i].equals("U")) {
-
-                    matrizBotones[x][y].setIcon(null);
-                    x--;
-                    matrizBotones[x][y].setIcon(mario);
-                }                 
-                else if (values[i].equals("D")) {
-
-                    matrizBotones[x][y].setIcon(null);
-                    x++;
-                    matrizBotones[x][y].setIcon(mario);
-                }                 
-                else if (values[i].equals("R")) {
-
-                    matrizBotones[x][y].setIcon(null);
-                    y++;
-                    matrizBotones[x][y].setIcon(mario);
-                }                 
-                else {
-
-                    matrizBotones[x][y].setIcon(null);
-                    y--;
-                    matrizBotones[x][y].setIcon(mario);
-                }
-
-                try {
-
-                    Thread.sleep(1000);
-                }                 
-                catch (InterruptedException ex){
-
-                    Logger.getLogger(Ventana.class.getName()).log(Level.SEVERE, null, ex);
-                }
-
-                this.paintAll(this.getGraphics());
-            }
-
-            buttonRecargar.setEnabled(true);
-        }
-    }
+    }        
 
     public static void main(String args[]) {
 
