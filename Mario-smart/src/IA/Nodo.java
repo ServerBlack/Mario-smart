@@ -1,15 +1,20 @@
 package IA;
 
 public class Nodo {
-    
+
     private int x;
     private int y;
+    private int xP;
+    private int yP;
     private String camino;
+    private int costo;
     
-    public Nodo(int x, int y, String camino){
+    public Nodo(int x, int y, int xP, int yP, String camino){
         
         this.x = x;
         this.y = y;
+        this.xP = xP;
+        this.yP = yP;
         this.camino = camino;
     }
     
@@ -41,5 +46,35 @@ public class Nodo {
     public void setY(int y){
         
         this.y = y;
+    }
+    
+    public int getxP(){
+        
+        return xP;
+    }
+
+    public void setxP(int xP){
+        
+        this.xP = xP;
+    }
+
+    public int getyP(){
+        
+        return yP;
+    }
+
+    public void setyP(int yP){
+        
+        this.yP = yP;
+    }   
+    
+    public int getCosto(){
+        
+        return costo;
+    }
+    
+    public void setCosto(int costo){
+        
+        this.costo = costo;
     }
 }

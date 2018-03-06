@@ -1,4 +1,5 @@
 package Vista;
+
 import IA.*;
 
 import java.awt.GridLayout;
@@ -11,31 +12,31 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
 public class Ventana extends javax.swing.JFrame {
-    
-    private int[][] matriz =  new int[10][10];
+
+    private int[][] matriz = new int[10][10];
     private JLabel[][] matrizBotones = new JLabel[10][10];
     private Icon mario;
     private int x;
     private int y;
 
     public Ventana() throws IOException {
-        
+
         super("Mario smart");
         initComponents();
-        
+
         comboBoxBusqueda.addItem("Amplitud");
         comboBoxBusqueda.addItem("Costo uniforme");
         comboBoxBusqueda.addItem("Profundidad evitando ciclos");
-        
+
         panelMatriz.setLayout(new GridLayout(10, 10));
         llenarMatriz();
-        
+
         ImageIcon imagen = new ImageIcon("/home/ivan/NetBeansProjects/Mario-smart/Mario-smart/sources/2.png");
         mario = new ImageIcon(imagen.getImage().getScaledInstance(60, 60, Image.SCALE_DEFAULT));
-        
+
         buttonRecargar.setEnabled(false);
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -47,6 +48,9 @@ public class Ventana extends javax.swing.JFrame {
         comboBoxBusqueda = new javax.swing.JComboBox<>();
         buttonBuscar = new javax.swing.JButton();
         buttonRecargar = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        textAreaReporte = new javax.swing.JTextArea();
+        labelReporte = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -85,26 +89,40 @@ public class Ventana extends javax.swing.JFrame {
             }
         });
 
+        textAreaReporte.setColumns(20);
+        textAreaReporte.setRows(5);
+        jScrollPane1.setViewportView(textAreaReporte);
+
+        labelReporte.setText("Reporte");
+
         javax.swing.GroupLayout panelBotonesLayout = new javax.swing.GroupLayout(panelBotones);
         panelBotones.setLayout(panelBotonesLayout);
         panelBotonesLayout.setHorizontalGroup(
             panelBotonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelBotonesLayout.createSequentialGroup()
-                .addGap(74, 74, 74)
-                .addComponent(labelTitulo)
-                .addGap(0, 56, Short.MAX_VALUE))
-            .addGroup(panelBotonesLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(panelBotonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(buttonBuscar)
-                    .addGroup(panelBotonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(comboBoxBusqueda, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(comboBoxTipo, 0, 228, Short.MAX_VALUE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelBotonesLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(buttonRecargar)
+                .addGroup(panelBotonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelBotonesLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane1))
+                    .addGroup(panelBotonesLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(panelBotonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(buttonRecargar)
+                            .addComponent(buttonBuscar)
+                            .addGroup(panelBotonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(comboBoxBusqueda, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(comboBoxTipo, 0, 228, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
+            .addGroup(panelBotonesLayout.createSequentialGroup()
+                .addGroup(panelBotonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelBotonesLayout.createSequentialGroup()
+                        .addGap(74, 74, 74)
+                        .addComponent(labelTitulo))
+                    .addGroup(panelBotonesLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(labelReporte)))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         panelBotonesLayout.setVerticalGroup(
             panelBotonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -119,7 +137,11 @@ public class Ventana extends javax.swing.JFrame {
                 .addComponent(buttonBuscar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(buttonRecargar)
-                .addContainerGap(374, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 91, Short.MAX_VALUE)
+                .addComponent(labelReporte)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(122, 122, 122))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -144,21 +166,21 @@ public class Ventana extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void llenarMatriz() throws FileNotFoundException, IOException {                
-        
+    private void llenarMatriz() throws FileNotFoundException, IOException {
+
         File archivo = new File("/home/ivan/NetBeansProjects/Mario-smart/Mario-smart/sources/Input.txt");
         FileReader fr = new FileReader(archivo);
         BufferedReader br = new BufferedReader(fr);
-        
-        String linea =  br.readLine();
+
+        String linea = br.readLine();
         int j = 0;
-        
-        while(linea != null){
-            
+
+        while (linea != null) {
+
             String[] values = linea.split(" ");
-            
-            for(int i = 0; i < 10; i++){
-               
+
+            for (int i = 0; i < 10; i++) {
+
                 JLabel boton = new JLabel();
                 boton.setSize(60, 60);
                 matriz[j][i] = Integer.parseInt(values[i]);
@@ -167,113 +189,56 @@ public class Ventana extends javax.swing.JFrame {
                 Icon icono = new ImageIcon(imagen.getImage().getScaledInstance(boton.getHeight(), boton.getWidth(), Image.SCALE_DEFAULT));
                 boton.setIcon(icono);
                 panelMatriz.add(boton);
-                
-                if(matriz[j][i] == 2){
-                    
+
+                if (matriz[j][i] == 2) {
+
                     x = j;
                     y = i;
                 }
             }
-                       
+
             linea = br.readLine();
             j++;
         }
     }
-    
-    private void imprimirMatriz(){
-               
-       for(int i = 0; i < 10; i++){
-           
-           for(int j = 0; j < 10; j++){
-               
-               System.out.print(matriz[i][j] + " ");
-           }
-           
-           System.out.print("\n");
-       }
-    }
-    
+
     private void comboBoxTipoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_comboBoxTipoItemStateChanged
-        
+
         comboBoxBusqueda.removeAllItems();
-        
-        if(comboBoxTipo.getSelectedIndex() == 0){
-            
+
+        if (comboBoxTipo.getSelectedIndex() == 0) {
+
             comboBoxBusqueda.addItem("Amplitud");
             comboBoxBusqueda.addItem("Costo uniforme");
             comboBoxBusqueda.addItem("Profundidad evitando ciclos");
-        }
-        
-        else {
-            
+        } else {
+
             comboBoxBusqueda.addItem("Avara");
             comboBoxBusqueda.addItem("A*");
         }
     }//GEN-LAST:event_comboBoxTipoItemStateChanged
 
     private void buttonBuscarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_buttonBuscarMouseClicked
-        
-        buttonBuscar.setEnabled(false);
-        
-        BusquedaNoInformada algoritmos = new BusquedaNoInformada(matriz);
-        
-        if(comboBoxTipo.getSelectedIndex() == 0){
+
+        buttonBuscar.setEnabled(false);        
+
+        if (comboBoxTipo.getSelectedIndex() == 0){
+
+            if (comboBoxBusqueda.getSelectedIndex() == 0){
+
+                amplitud();
+            }
             
-            if(comboBoxBusqueda.getSelectedIndex() == 0){
- 
-                String camino = algoritmos.amplitud(x, y);
-                
-                String[] values = camino.split(",");
-            
-                for(int i = 0; i < values.length; i++){
-               
-                    System.out.println(values[i]);
-                    
-                    if(values[i].equals("U")){
-                        
-                        matrizBotones[x][y].setIcon(null);
-                        x--;
-                        matrizBotones[x][y].setIcon(mario);
-                    }
-                    
-                    else if(values[i].equals("D")){
-                        
-                        matrizBotones[x][y].setIcon(null);
-                        x++;
-                        matrizBotones[x][y].setIcon(mario);
-                    }
-                    else if(values[i].equals("R")){
-                        
-                        matrizBotones[x][y].setIcon(null);
-                        y++;
-                        matrizBotones[x][y].setIcon(mario);
-                    }
-                    else{
-                        
-                        matrizBotones[x][y].setIcon(null);
-                        y--;
-                        matrizBotones[x][y].setIcon(mario);
-                    }
-                    
-                    try {
-                        
-                        Thread.sleep(1000);
-                        
-                    } catch (InterruptedException ex){
-                        
-                        Logger.getLogger(Ventana.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                    
-                    this.paintAll(this.getGraphics()); 
-                }
-                
-                buttonRecargar.setEnabled(true);
+           if (comboBoxBusqueda.getSelectedIndex() == 1){
+
+               System.out.println("Flag");
+               costoUniforme();
             }
         }
     }//GEN-LAST:event_buttonBuscarMouseClicked
 
     private void buttonRecargarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_buttonRecargarMouseClicked
-        
+
         /*try {
             
             llenarMatriz();
@@ -286,8 +251,132 @@ public class Ventana extends javax.swing.JFrame {
         this.paintAll(this.getGraphics());*/
     }//GEN-LAST:event_buttonRecargarMouseClicked
 
-    public static void main(String args[]){
+    public void amplitud() {
+
+        Busqueda algoritmos = new Busqueda(matriz);
         
+        Nodo hoja = algoritmos.amplitud(x, y);
+        
+        String camino = hoja.getCamino();
+        
+        if(camino.equals("F")){
+            
+            // Fallo.
+        }
+        
+        else {
+
+            String[] values = camino.split(",");
+
+            for (int i = 0; i < values.length; i++){
+
+                System.out.println(values[i]);
+
+                if (values[i].equals("U")) {
+
+                    matrizBotones[x][y].setIcon(null);
+                    x--;
+                    matrizBotones[x][y].setIcon(mario);
+                }                 
+                else if (values[i].equals("D")) {
+
+                    matrizBotones[x][y].setIcon(null);
+                    x++;
+                    matrizBotones[x][y].setIcon(mario);
+                }                 
+                else if (values[i].equals("R")) {
+
+                    matrizBotones[x][y].setIcon(null);
+                    y++;
+                    matrizBotones[x][y].setIcon(mario);
+                }                 
+                else {
+
+                    matrizBotones[x][y].setIcon(null);
+                    y--;
+                    matrizBotones[x][y].setIcon(mario);
+                }
+
+                try {
+
+                    Thread.sleep(1000);
+                }                 
+                catch (InterruptedException ex){
+
+                    Logger.getLogger(Ventana.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+                this.paintAll(this.getGraphics());
+            }
+
+            buttonRecargar.setEnabled(true);
+        }
+    }
+    
+    public void costoUniforme(){
+        
+        Busqueda algoritmos = new Busqueda(matriz);
+        
+        Nodo hoja = algoritmos.costoUniforme(x, y);
+        
+        String camino = hoja.getCamino();
+        
+        if(camino.equals("F")){
+            
+            // Fallo.
+        }
+        
+        else {
+
+            String[] values = camino.split(",");
+
+            for (int i = 0; i < values.length; i++){
+
+                System.out.println(values[i]);
+
+                if (values[i].equals("U")) {
+
+                    matrizBotones[x][y].setIcon(null);
+                    x--;
+                    matrizBotones[x][y].setIcon(mario);
+                }                 
+                else if (values[i].equals("D")) {
+
+                    matrizBotones[x][y].setIcon(null);
+                    x++;
+                    matrizBotones[x][y].setIcon(mario);
+                }                 
+                else if (values[i].equals("R")) {
+
+                    matrizBotones[x][y].setIcon(null);
+                    y++;
+                    matrizBotones[x][y].setIcon(mario);
+                }                 
+                else {
+
+                    matrizBotones[x][y].setIcon(null);
+                    y--;
+                    matrizBotones[x][y].setIcon(mario);
+                }
+
+                try {
+
+                    Thread.sleep(1000);
+                }                 
+                catch (InterruptedException ex){
+
+                    Logger.getLogger(Ventana.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+                this.paintAll(this.getGraphics());
+            }
+
+            buttonRecargar.setEnabled(true);
+        }
+    }
+
+    public static void main(String args[]) {
+
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
@@ -310,15 +399,15 @@ public class Ventana extends javax.swing.JFrame {
         }
         //</editor-fold>
 
-        java.awt.EventQueue.invokeLater(new Runnable(){
-            
-            public void run(){
-                
+        java.awt.EventQueue.invokeLater(new Runnable() {
+
+            public void run() {
+
                 try {
-                    
+
                     new Ventana().setVisible(true);
-                } catch (IOException ex){
-                    
+                } catch (IOException ex) {
+
                     Logger.getLogger(Ventana.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
@@ -330,8 +419,11 @@ public class Ventana extends javax.swing.JFrame {
     private javax.swing.JButton buttonRecargar;
     private javax.swing.JComboBox<String> comboBoxBusqueda;
     private javax.swing.JComboBox<String> comboBoxTipo;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel labelReporte;
     private javax.swing.JLabel labelTitulo;
     private javax.swing.JPanel panelBotones;
     private javax.swing.JPanel panelMatriz;
+    private javax.swing.JTextArea textAreaReporte;
     // End of variables declaration//GEN-END:variables
 }
