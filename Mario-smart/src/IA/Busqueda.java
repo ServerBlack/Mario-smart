@@ -101,24 +101,30 @@ public class Busqueda {
         Nodo raiz = new Nodo(x, y, x, y, "");
         pila.push(raiz);
                 
+        int j = 15;
+        
         while(!pila.empty()){                      
+            
+            System.out.println("Nodo pop: (" + pila.peek().getX() + ", " + pila.peek().getY() + ")");
             
             if(matriz[pila.peek().getX()][pila.peek().getY()] == 5){
                 
                 return pila.peek();
             }
             
-            else {
+            else {                                
                 
-                ArrayList <Nodo> hijos = expandirSinCiclos(pila.peek());
+                ArrayList <Nodo> hijos = expandirSinCiclos(pila.peek());                                        
                 
-                pila.pop();           
+                pila.pop();
                 
                 for(int i = 0; i < hijos.size(); i++){
                     
                     pila.push(hijos.get(i));
                 }                
-            }            
+            }                                  
+            
+            j--;
         }
         
         Nodo hoja = new Nodo(0, 0, 0, 0, "F");
@@ -225,54 +231,7 @@ public class Busqueda {
     public ArrayList <Nodo> expandirSinCiclos(Nodo raiz){
         
         ArrayList <Nodo> hijos = new ArrayList();
-        int costo = 1;
 
-        // Bajar.
-        if(raiz.getX() + 1 >= 0 && raiz.getX() + 1 <= 9){
-            
-            if(matriz[raiz.getX() + 1][raiz.getY()] != 1){
-            
-                if(!hayCiclos(raiz.getX() + 1, raiz.getY(), raiz)){
-                    
-                    Nodo hijo = new Nodo(raiz.getX() + 1, raiz.getY(), raiz.getX(), raiz.getY(), raiz.getCamino() + "D,");                    
-                    
-                    costo = 1;
-                    
-                    if(matriz[raiz.getX() + 1][raiz.getY()] == 4){
-                        
-                        costo = 8;
-                    }
-                    
-                    hijo.setCosto(raiz.getCosto() + costo);
-                    hijo.setPadre(raiz);
-                    hijos.add(hijo);
-                }  
-            }
-        }
-        
-        // Derecha.
-        if(raiz.getY() + 1 >= 0 && raiz.getY() + 1 <= 9){
-            
-            if(matriz[raiz.getX()][raiz.getY() + 1] != 1){
-            
-                if(!hayCiclos(raiz.getX(), raiz.getY() + 1, raiz)){
-                    
-                    Nodo hijo = new Nodo(raiz.getX(), raiz.getY() + 1, raiz.getX(), raiz.getY(), raiz.getCamino() + "R,");
-                    
-                    costo = 1;
-                    
-                    if(matriz[raiz.getX()][raiz.getY() + 1] == 4){
-                        
-                        costo = 8;
-                    }
-                    
-                    hijo.setCosto(raiz.getCosto() + costo);
-                    hijo.setPadre(raiz);
-                    hijos.add(hijo);
-                }
-            }            
-        }
-                
         // Izquierda.
         if(raiz.getY() - 1 >= 0 && raiz.getY() - 1 <= 9){
             
@@ -281,16 +240,6 @@ public class Busqueda {
                 if(!hayCiclos(raiz.getX(), raiz.getY() - 1, raiz)){
                     
                     Nodo hijo = new Nodo(raiz.getX(), raiz.getY() - 1, raiz.getX(), raiz.getY(), raiz.getCamino() + "L,");
-                    
-                    costo = 1;
-                    
-                    if(matriz[raiz.getX()][raiz.getY() - 1] == 4){
-                        
-                        costo = 8;
-                    }
-                    
-                    hijo.setCosto(raiz.getCosto() + costo);    
-                    hijo.setPadre(raiz);
                     hijos.add(hijo);
                 }
             }            
@@ -304,36 +253,78 @@ public class Busqueda {
                 if(!hayCiclos(raiz.getX() - 1, raiz.getY(), raiz)){
                     
                     Nodo hijo = new Nodo(raiz.getX() - 1, raiz.getY(), raiz.getX(), raiz.getY(), raiz.getCamino() + "U,");
-                    
-                    costo = 1;
-                    
-                    if(matriz[raiz.getX() - 1][raiz.getY()] == 4){
-                        
-                        costo = 8;
-                    }
-                    
-                    hijo.setCosto(raiz.getCosto() + costo);  
-                    hijo.setPadre(raiz);
                     hijos.add(hijo);
                 }
             }
-        }
+        }               
         
+        // Derecha.
+        if(raiz.getY() + 1 >= 0 && raiz.getY() + 1 <= 9){
+            
+            if(matriz[raiz.getX()][raiz.getY() + 1] != 1){
+            
+                if(!hayCiclos(raiz.getX(), raiz.getY() + 1, raiz)){
+                    
+                    Nodo hijo = new Nodo(raiz.getX(), raiz.getY() + 1, raiz.getX(), raiz.getY(), raiz.getCamino() + "R,");
+                    hijos.add(hijo);
+                }
+            }            
+        }               
+        
+        // Bajar.
+        if(raiz.getX() + 1 >= 0 && raiz.getX() + 1 <= 9){
+            
+            if(matriz[raiz.getX() + 1][raiz.getY()] != 1){
+            
+                if(!hayCiclos(raiz.getX() + 1, raiz.getY(), raiz)){
+                    
+                    Nodo hijo = new Nodo(raiz.getX() + 1, raiz.getY(), raiz.getX(), raiz.getY(), raiz.getCamino() + "D,");                    
+                    hijos.add(hijo);
+                }  
+            } 
+        }
+               
         return hijos;
     }
     
-    public boolean hayCiclos(int xH, int yH, Nodo padre){
-                        
-        /*ArrayList padres = padre.getPadres();
-        
-        for(int i = 0; i < padres.size(); i += 2){
-            
-            if(padres.get(i) == xH && padres.get(i + 1) == yH){
-                
-                return true;
-            }
+    public boolean hayCiclos(int xH, int yH, Nodo padre) {
+
+        int x = padre.getX(), y = padre.getY();
+
+        if (x == xH && y == yH) {
+
+            return true;
         }
-        */
+
+        System.out.println("Hijo: (" + xH + ", " + yH + ")");
+        System.out.print("Padres: (" + x + "," + y + ")");
+        
+        String[] values = padre.getCamino().split(",");
+
+        for (int i = values.length - 1; i >= 0; i--) {
+
+            if (values[i].equals("U")) {
+                x++;
+                System.out.print(" (" + x + "," + y + ")");
+            } else if (values[i].equals("D")) {
+                x--;
+                System.out.print(" (" + x + "," + y + ")");
+            } else if (values[i].equals("R")) {
+                y--; 
+                System.out.print(" (" + x + "," + y + ")");
+            } else if (values[i].equals("L")){
+                y++;
+                System.out.print(" (" + x + "," + y + ")");
+            }                        
+
+            if (x == xH && y == yH){
+
+                return true;
+            }    
+        }             
+        
+        System.out.println(" ");
+        
         return false;
     }
     
