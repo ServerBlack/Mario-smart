@@ -100,8 +100,6 @@ public class Busqueda {
         
         Nodo raiz = new Nodo(x, y, x, y, "");
         pila.push(raiz);
-                
-        int j = 15;
         
         while(!pila.empty()){                      
             
@@ -122,9 +120,7 @@ public class Busqueda {
                     
                     pila.push(hijos.get(i));
                 }                
-            }                                  
-            
-            j--;
+            }       
         }
         
         Nodo hoja = new Nodo(0, 0, 0, 0, "F");
