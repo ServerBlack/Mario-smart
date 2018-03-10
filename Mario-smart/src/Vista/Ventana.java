@@ -16,6 +16,8 @@ public class Ventana extends javax.swing.JFrame {
     private ImageIcon mario;
     private int x;
     private int y;
+    private int xf;
+    private int yf;    
 
     public Ventana() throws IOException {
 
@@ -214,6 +216,12 @@ public class Ventana extends javax.swing.JFrame {
                     x = j;
                     y = i;
                 }
+                
+                if (matriz[j][i] == 5) {
+
+                    xf = j;
+                    yf = i;
+                }
             }
 
             linea = br.readLine();
@@ -244,27 +252,46 @@ public class Ventana extends javax.swing.JFrame {
         buttonBuscar.setEnabled(false);        
 
         Busqueda algoritmos = new Busqueda(matriz);
+        Nodo hoja;
+        
+        long tInicio = System.currentTimeMillis();
         
         if (comboBoxTipo.getSelectedIndex() == 0){
 
             if (comboBoxBusqueda.getSelectedIndex() == 0){
 
-                Nodo hoja = algoritmos.amplitud(x, y);
-                hacerCamino(hoja);
+                hoja = algoritmos.amplitud(x, y);
             }
             
-            if (comboBoxBusqueda.getSelectedIndex() == 1){
+            else if (comboBoxBusqueda.getSelectedIndex() == 1){
 
-               Nodo hoja = algoritmos.costoUniforme(x, y);
-               hacerCamino(hoja);
+                hoja = algoritmos.costoUniforme(x, y);
             }
             
-            if (comboBoxBusqueda.getSelectedIndex() == 2){
+            else {
 
-                Nodo hoja = algoritmos.profundidad(x, y);
-                hacerCamino(hoja);
+                hoja = algoritmos.profundidad(x, y);
             }            
         }
+        
+        else {
+
+            if (comboBoxBusqueda.getSelectedIndex() == 0){
+
+                hoja = algoritmos.avara(x, y, xf, yf);
+            }
+            
+            else {
+
+                hoja = algoritmos.aEstrella(x, y, xf, yf);               
+            }           
+        }
+        
+        long tFinal = System.currentTimeMillis();
+        hacerCamino(hoja);
+        long tDiferencia = tFinal - tInicio;
+        
+        textAreaReporte.setText("Tiempo: " + tDiferencia + "\nNodos: " + algoritmos.getNodosExpandidos() + "\nProfundidad: " + algoritmos.getProfundidadArbol() );
     }//GEN-LAST:event_buttonBuscarMouseClicked
 
     private void buttonRecargarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_buttonRecargarMouseClicked
@@ -298,8 +325,6 @@ public class Ventana extends javax.swing.JFrame {
             String[] values = camino.split(",");
 
             for (int i = 0; i < values.length; i++){
-
-                // System.out.println(values[i]);
 
                 matrizBotones[x][y].setIcon(null);
                 
