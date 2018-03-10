@@ -1,6 +1,7 @@
 package IA;
+
 import Vista.*;
-import java.io.IOException;
+import java.io.*;
 
 public class MarioSmart {
 
@@ -8,5 +9,5 @@ public class MarioSmart {
         
         Ventana v = new Ventana();
         v.setVisible(true);
-    }   
+    }  
 }

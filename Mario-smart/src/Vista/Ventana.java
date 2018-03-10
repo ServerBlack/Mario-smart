@@ -1,13 +1,10 @@
 package Vista;
 
 import IA.*;
-
 import java.awt.GridLayout;
 import java.io.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
+import java.util.logging.*;
+import javax.swing.*;
 
 public class Ventana extends javax.swing.JFrame {
 
@@ -54,6 +51,8 @@ public class Ventana extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        panelMatriz.setBackground(new java.awt.Color(254, 254, 254));
+
         javax.swing.GroupLayout panelMatrizLayout = new javax.swing.GroupLayout(panelMatriz);
         panelMatriz.setLayout(panelMatrizLayout);
         panelMatrizLayout.setHorizontalGroup(
@@ -64,6 +63,8 @@ public class Ventana extends javax.swing.JFrame {
             panelMatrizLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 0, Short.MAX_VALUE)
         );
+
+        panelBotones.setBackground(new java.awt.Color(160, 160, 160));
 
         labelTitulo.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         labelTitulo.setText("Mario smart");
