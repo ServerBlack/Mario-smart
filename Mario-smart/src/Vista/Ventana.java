@@ -14,22 +14,32 @@ public class Ventana extends javax.swing.JFrame {
     private int x;
     private int y;
     private int xf;
-    private int yf;    
+    private int yf;
+    private String personaje;  
+    private int mundo;
 
     public Ventana() throws IOException {
 
         super("Inteligencia artificial");
+        this.setResizable(false);
         initComponents();
 
         comboBoxBusqueda.addItem("Amplitud");
         comboBoxBusqueda.addItem("Costo uniforme");
         comboBoxBusqueda.addItem("Profundidad evitando ciclos");
+        
+        personaje = "M";
+        mundo = 0;
+        textAreaReporte.setEditable(false);
+        textAreaReporte.setLineWrap(true);
+        textAreaReporte.setWrapStyleWord(true);
 
         panelMatriz.setLayout(new GridLayout(10, 10));
         crearMatriz();
         llenarMatriz();
 
-        estadoInicial();       
+        estadoInicial();  
+        cambiarTema();
         
         buttonRecargar.setEnabled(false);
     }
@@ -45,26 +55,31 @@ public class Ventana extends javax.swing.JFrame {
         comboBoxBusqueda = new javax.swing.JComboBox<>();
         buttonBuscar = new javax.swing.JButton();
         buttonRecargar = new javax.swing.JButton();
+        labelReporte = new javax.swing.JLabel();
+        comboBoxPersonaje = new javax.swing.JComboBox<>();
+        comboBoxInputs = new javax.swing.JComboBox<>();
+        labelTema = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         textAreaReporte = new javax.swing.JTextArea();
-        labelReporte = new javax.swing.JLabel();
+        label = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         panelMatriz.setBackground(new java.awt.Color(254, 254, 254));
+        panelMatriz.setPreferredSize(new java.awt.Dimension(600, 600));
 
         javax.swing.GroupLayout panelMatrizLayout = new javax.swing.GroupLayout(panelMatriz);
         panelMatriz.setLayout(panelMatrizLayout);
         panelMatrizLayout.setHorizontalGroup(
             panelMatrizLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 601, Short.MAX_VALUE)
+            .addGap(0, 600, Short.MAX_VALUE)
         );
         panelMatrizLayout.setVerticalGroup(
             panelMatrizLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 600, Short.MAX_VALUE)
         );
 
-        panelBotones.setBackground(new java.awt.Color(160, 160, 160));
+        panelBotones.setBackground(new java.awt.Color(254, 254, 254));
 
         labelTitulo.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         labelTitulo.setText("Mario smart");
@@ -90,36 +105,57 @@ public class Ventana extends javax.swing.JFrame {
             }
         });
 
-        textAreaReporte.setColumns(20);
-        textAreaReporte.setRows(5);
-        jScrollPane1.setViewportView(textAreaReporte);
-
         labelReporte.setText("Reporte");
+
+        comboBoxPersonaje.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mario", "Goku" }));
+        comboBoxPersonaje.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                comboBoxPersonajeItemStateChanged(evt);
+            }
+        });
+
+        comboBoxInputs.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mundo 1", "Mundo 2", "Mundo 3", "Mundo 4", "Mundo 5" }));
+        comboBoxInputs.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                comboBoxInputsItemStateChanged(evt);
+            }
+        });
+
+        textAreaReporte.setColumns(20);
+        textAreaReporte.setRows(3);
+        jScrollPane1.setViewportView(textAreaReporte);
 
         javax.swing.GroupLayout panelBotonesLayout = new javax.swing.GroupLayout(panelBotones);
         panelBotones.setLayout(panelBotonesLayout);
         panelBotonesLayout.setHorizontalGroup(
             panelBotonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelBotonesLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(panelBotonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(buttonRecargar)
-                    .addComponent(buttonBuscar)
-                    .addGroup(panelBotonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(comboBoxBusqueda, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(comboBoxTipo, 0, 228, Short.MAX_VALUE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(panelBotonesLayout.createSequentialGroup()
                 .addGap(74, 74, 74)
                 .addComponent(labelTitulo)
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelBotonesLayout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(0, 78, Short.MAX_VALUE))
+            .addGroup(panelBotonesLayout.createSequentialGroup()
                 .addGroup(panelBotonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
                     .addGroup(panelBotonesLayout.createSequentialGroup()
-                        .addComponent(labelReporte)
-                        .addGap(78, 78, 78)))
+                        .addGroup(panelBotonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(panelBotonesLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(panelBotonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelBotonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(buttonRecargar)
+                                        .addComponent(buttonBuscar)
+                                        .addGroup(panelBotonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(comboBoxBusqueda, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(comboBoxTipo, 0, 228, Short.MAX_VALUE)))
+                                    .addComponent(comboBoxPersonaje, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(comboBoxInputs, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(labelTema, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addGroup(panelBotonesLayout.createSequentialGroup()
+                                .addGap(104, 104, 104)
+                                .addComponent(labelReporte)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelBotonesLayout.createSequentialGroup()
+                        .addGap(0, 12, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         panelBotonesLayout.setVerticalGroup(
@@ -135,11 +171,17 @@ public class Ventana extends javax.swing.JFrame {
                 .addComponent(buttonBuscar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(buttonRecargar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 152, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(comboBoxPersonaje, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(labelTema, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(30, 30, 30)
+                .addComponent(comboBoxInputs, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(labelReporte)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(151, 151, 151))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(21, 21, 21))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -147,18 +189,26 @@ public class Ventana extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(15, 15, 15)
                 .addComponent(panelMatriz, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(panelBotones, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(panelBotones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(15, 15, 15))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(label)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(panelBotones, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(panelMatriz, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(15, 15, 15)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(panelMatriz, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(panelBotones, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(label)
+                .addContainerGap())
         );
 
         pack();
@@ -166,17 +216,38 @@ public class Ventana extends javax.swing.JFrame {
 
     private void cambiarEstado(){
         
-        mario = new ImageIcon("/home/ivan/NetBeansProjects/Mario-smart/Mario-smart/sources/D/6.png");
+        mario = new ImageIcon("/home/ivan/NetBeansProjects/Mario-smart/Mario-smart/sources/" + personaje + "/6.png");                
+    }
+    
+    private void cambiarTema(){
+        
+        labelTema.setIcon(new ImageIcon("/home/ivan/NetBeansProjects/Mario-smart/Mario-smart/sources/" + personaje + "/10.png"));
+    
+        if(personaje.equals("D")){
+            
+            labelTitulo.setText("Goku smart");
+        }        
+        else {
+            
+            labelTitulo.setText("Mario smart");
+        }
     }
     
     private void estadoInicial(){
         
-        mario = new ImageIcon("/home/ivan/NetBeansProjects/Mario-smart/Mario-smart/sources/D/2.png");
+        mario = new ImageIcon("/home/ivan/NetBeansProjects/Mario-smart/Mario-smart/sources/" + personaje + "/2.png");
     }
     
-    private void meta(){
+    private void meta(boolean estado){
         
-        mario = new ImageIcon("/home/ivan/NetBeansProjects/Mario-smart/Mario-smart/sources/D/7.png");
+        if(estado){
+         
+            mario = new ImageIcon("/home/ivan/NetBeansProjects/Mario-smart/Mario-smart/sources/" + personaje + "/7.png");
+        }
+        else {
+                    
+            mario = new ImageIcon("/home/ivan/NetBeansProjects/Mario-smart/Mario-smart/sources/" + personaje + "/8.png");
+        }
     }
     
     private void crearMatriz(){
@@ -186,7 +257,6 @@ public class Ventana extends javax.swing.JFrame {
             for(int j = 0; j < 10; j++){
                 
                 JLabel boton = new JLabel();
-                boton.setSize(60, 60);
                 matrizBotones[i][j] = boton;
                 panelMatriz.add(boton);
             }
@@ -195,7 +265,7 @@ public class Ventana extends javax.swing.JFrame {
     
     private void llenarMatriz() throws FileNotFoundException, IOException {
 
-        File archivo = new File("/home/ivan/NetBeansProjects/Mario-smart/Mario-smart/sources/A/Input.txt");
+        File archivo = new File("/home/ivan/NetBeansProjects/Mario-smart/Mario-smart/sources/A/Input" + mundo +".txt");
         FileReader fr = new FileReader(archivo);
         BufferedReader br = new BufferedReader(fr);
 
@@ -209,7 +279,7 @@ public class Ventana extends javax.swing.JFrame {
             for (int i = 0; i < 10; i++) { 
                                 
                 matriz[j][i] = Integer.parseInt(values[i]);                
-                ImageIcon imagen = new ImageIcon("/home/ivan/NetBeansProjects/Mario-smart/Mario-smart/sources/D/" + values[i].charAt(0) + ".png"); 
+                ImageIcon imagen = new ImageIcon("/home/ivan/NetBeansProjects/Mario-smart/Mario-smart/sources/" + personaje + "/" + values[i].charAt(0) + ".png"); 
                 matrizBotones[j][i].setIcon(imagen);                
 
                 if (matriz[j][i] == 2) {
@@ -292,33 +362,98 @@ public class Ventana extends javax.swing.JFrame {
         hacerCamino(hoja);
         long tDiferencia = tFinal - tInicio;
         
-        textAreaReporte.setText("Tiempo: " + tDiferencia + "\nNodos: " + algoritmos.getNodosExpandidos() + "\nProfundidad: " + algoritmos.getProfundidadArbol() );
+        textAreaReporte.setText(" Tiempo de computo: " + tDiferencia + " ms.\n Nodos expandidos: " + algoritmos.getNodosExpandidos() + ".\n Profundidad del arbol: " + algoritmos.getProfundidadArbol() + ".");
     }//GEN-LAST:event_buttonBuscarMouseClicked
 
     private void buttonRecargarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_buttonRecargarMouseClicked
 
-        try {
+        recargar();
+    }//GEN-LAST:event_buttonRecargarMouseClicked
+
+    private void comboBoxPersonajeItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_comboBoxPersonajeItemStateChanged
+        
+        if(comboBoxPersonaje.getSelectedIndex() == 0){
             
-            llenarMatriz();
+            personaje = "M";
+        }
+        else {
             
-        } catch (IOException ex){
-            
-            Logger.getLogger(Ventana.class.getName()).log(Level.SEVERE, null, ex);
+            personaje = "D";
         }
         
+        cambiarTema();
+        recargar();        
+    }//GEN-LAST:event_comboBoxPersonajeItemStateChanged
+
+    private void comboBoxInputsItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_comboBoxInputsItemStateChanged
+        
+        if(comboBoxInputs.getSelectedIndex() == 0){
+            
+            mundo = 0;
+        }
+        else if(comboBoxInputs.getSelectedIndex() == 1){
+            mundo = 1;
+        }
+        else if(comboBoxInputs.getSelectedIndex() == 2){
+            mundo = 2;
+        }
+        else if(comboBoxInputs.getSelectedIndex() == 3){
+            mundo = 3;
+        }
+        else {
+            mundo = 4;
+        }
+        
+        recargar();
+        
+    }//GEN-LAST:event_comboBoxInputsItemStateChanged
+
+    public void recargar(){
+        
+        try {
+            llenarMatriz();
+        } catch (IOException ex) {
+            Logger.getLogger(Ventana.class.getName()).log(Level.SEVERE, null, ex);
+        }
         this.paintAll(this.getGraphics());
         
         buttonRecargar.setEnabled(false);
         buttonBuscar.setEnabled(true);
-    }//GEN-LAST:event_buttonRecargarMouseClicked
-
+        textAreaReporte.setText("");
+    }
+    
     public void hacerCamino(Nodo hoja){
         
         String camino = hoja.getCamino();
         
         if(camino.equals("F")){
             
-            // Fallo.
+            System.out.println("Falla");
+            
+            if (personaje.equals("D")) {
+
+                textAreaReporte.setText(" No existe un camino.\n Pero Goku se puede teletransportar.");
+            } 
+            else {
+
+                textAreaReporte.setText(" No existe un camino.\n Pero Mario tiene un jetpack.");
+            }
+            
+            matrizBotones[x][y].setIcon(new ImageIcon("/home/ivan/NetBeansProjects/Mario-smart/Mario-smart/sources/" + personaje + "/9.png"));
+
+            this.paintAll(this.getGraphics());
+            
+            try {
+
+                Thread.sleep(1000);
+            } catch (InterruptedException ex) {
+
+                Logger.getLogger(Ventana.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            meta(hoja.getEstado());
+            
+            this.paintAll(this.getGraphics());
         }
         
         else {
@@ -353,7 +488,7 @@ public class Ventana extends javax.swing.JFrame {
                 
                 if(matriz[x][y] == 5){
                     
-                    meta();
+                    meta(hoja.getEstado());
                 }
                 
                 matrizBotones[x][y].setIcon(mario);
@@ -368,10 +503,10 @@ public class Ventana extends javax.swing.JFrame {
                 }
 
                 this.paintAll(this.getGraphics());
-            }
-
-            buttonRecargar.setEnabled(true);
+            }            
         }
+        
+        buttonRecargar.setEnabled(true);
     }        
 
     public static void main(String args[]) {
@@ -417,9 +552,13 @@ public class Ventana extends javax.swing.JFrame {
     private javax.swing.JButton buttonBuscar;
     private javax.swing.JButton buttonRecargar;
     private javax.swing.JComboBox<String> comboBoxBusqueda;
+    private javax.swing.JComboBox<String> comboBoxInputs;
+    private javax.swing.JComboBox<String> comboBoxPersonaje;
     private javax.swing.JComboBox<String> comboBoxTipo;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel label;
     private javax.swing.JLabel labelReporte;
+    private javax.swing.JLabel labelTema;
     private javax.swing.JLabel labelTitulo;
     private javax.swing.JPanel panelBotones;
     private javax.swing.JPanel panelMatriz;

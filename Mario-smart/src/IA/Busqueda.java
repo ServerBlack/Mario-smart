@@ -302,20 +302,34 @@ public class Busqueda {
 
         ArrayList<Nodo> hijos = new ArrayList();
         int costo;
+        boolean estado = false, devolver = false;
+        
+        // Si el estado cambia, es permintido devolverse.
+        if(matriz[padre.getX()][padre.getY()] == 3 || padre.getEstado()){
+            
+            if(!padre.getEstado()){
+                
+                devolver = true;
+            }
+            
+            padre.setEstado(true);
+            estado = true;                        
+        }
 
-        // Si no se desborda la matriz, si no es una pared y si no se devuelve.
+        // Si no se desborda la matriz, si no es una pared y si no se devuelve a menos que cambie de estado.
         // Bajar.
-        if(padre.getX() + 1 >= 0 && padre.getX() + 1 <= 9 && matriz[padre.getX() + 1][padre.getY()] != 1 && padre.getX() + 1 != padre.getxP()){
+        if(padre.getX() + 1 >= 0 && padre.getX() + 1 <= 9 && matriz[padre.getX() + 1][padre.getY()] != 1 && (padre.getX() + 1 != padre.getxP() || devolver)){
 
             Nodo hijo = new Nodo(padre.getX() + 1, padre.getY());
             hijo.setxP(padre.getX());
             hijo.setyP(padre.getY());
             hijo.setCamino(padre.getCamino() + "D,");
+            hijo.setEstado(estado);
 
             costo = 1;
 
             // Por si es una tortuga o un Toppo.
-            if(matriz[padre.getX() + 1][padre.getY()] == 4){
+            if(matriz[padre.getX() + 1][padre.getY()] == 4 && !padre.getEstado()){
 
                 costo = 8;
             }
@@ -326,16 +340,17 @@ public class Busqueda {
         }
 
         // Derecha.
-        if(padre.getY() + 1 >= 0 && padre.getY() + 1 <= 9 && matriz[padre.getX()][padre.getY() + 1] != 1 && padre.getY() + 1 != padre.getyP()){
+        if(padre.getY() + 1 >= 0 && padre.getY() + 1 <= 9 && matriz[padre.getX()][padre.getY() + 1] != 1 && (padre.getY() + 1 != padre.getyP() || devolver)){
 
             Nodo hijo = new Nodo(padre.getX(), padre.getY() + 1);
             hijo.setxP(padre.getX());
             hijo.setyP(padre.getY());
             hijo.setCamino(padre.getCamino() + "R,");
+            hijo.setEstado(estado);
             
             costo = 1;
 
-            if(matriz[padre.getX()][padre.getY() + 1] == 4){
+            if(matriz[padre.getX()][padre.getY() + 1] == 4 && !padre.getEstado()){
 
                 costo = 8;
             }
@@ -346,16 +361,17 @@ public class Busqueda {
         }
 
         // Izquierda.
-        if(padre.getY() - 1 >= 0 && padre.getY() - 1 <= 9 && matriz[padre.getX()][padre.getY() - 1] != 1 && padre.getY() - 1 != padre.getyP()){
+        if(padre.getY() - 1 >= 0 && padre.getY() - 1 <= 9 && matriz[padre.getX()][padre.getY() - 1] != 1 && (padre.getY() - 1 != padre.getyP() || devolver)){
 
             Nodo hijo = new Nodo(padre.getX(), padre.getY() - 1);
             hijo.setxP(padre.getX());
             hijo.setyP(padre.getY());
             hijo.setCamino(padre.getCamino() + "L,");
+            hijo.setEstado(estado);
             
             costo = 1;
 
-            if(matriz[padre.getX()][padre.getY() - 1] == 4){
+            if(matriz[padre.getX()][padre.getY() - 1] == 4 && !padre.getEstado()){
 
                 costo = 8;
             }
@@ -366,16 +382,17 @@ public class Busqueda {
         }
 
         // Subir.
-        if (padre.getX() - 1 >= 0 && padre.getX() - 1 <= 9 && matriz[padre.getX() - 1][padre.getY()] != 1 && padre.getX() - 1 != padre.getxP()) {
+        if (padre.getX() - 1 >= 0 && padre.getX() - 1 <= 9 && matriz[padre.getX() - 1][padre.getY()] != 1 && (padre.getX() - 1 != padre.getxP() || devolver)) {
 
             Nodo hijo = new Nodo(padre.getX() - 1, padre.getY());
             hijo.setxP(padre.getX());
             hijo.setyP(padre.getY());
             hijo.setCamino(padre.getCamino() + "U,");
+            hijo.setEstado(estado);
             
             costo = 1;
 
-            if(matriz[padre.getX() - 1][padre.getY()] == 4){
+            if(matriz[padre.getX() - 1][padre.getY()] == 4 && !padre.getEstado()){
 
                 costo = 8;
             }

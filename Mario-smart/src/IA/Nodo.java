@@ -15,12 +15,15 @@ public class Nodo {
     private int profundidad;
     // Lista de pasos realizados.
     private String camino;
+    // Si tiene poder o no.
+    boolean estado;
     
     public Nodo(int x, int y){
         
         this.x = x;
         this.y = y;
         camino = "";
+        estado = false;
     }    
 
     public int getX(){ 
@@ -106,5 +109,15 @@ public class Nodo {
     public int getFn(){
         
         return (heuristica + costo);
+    }
+    
+    public boolean getEstado(){ 
+        
+        return estado;
+    }
+    
+    public void setEstado(boolean estado){ 
+        
+        this.estado = estado;
     }
 }
