@@ -359,10 +359,13 @@ public class Ventana extends javax.swing.JFrame {
         }
         
         long tFinal = System.currentTimeMillis();
-        hacerCamino(hoja);
+        boolean resultado = hacerCamino(hoja);        
         long tDiferencia = tFinal - tInicio;
         
-        textAreaReporte.setText(" Tiempo de computo: " + tDiferencia + " ms.\n Nodos expandidos: " + algoritmos.getNodosExpandidos() + ".\n Profundidad del arbol: " + algoritmos.getProfundidadArbol() + ".");
+        if(resultado){
+        
+            textAreaReporte.setText(" Tiempo de computo: " + tDiferencia + " ms.\n Nodos expandidos: " + algoritmos.getNodosExpandidos() + ".\n Profundidad del arbol: " + algoritmos.getProfundidadArbol() + ".");
+        }
     }//GEN-LAST:event_buttonBuscarMouseClicked
 
     private void buttonRecargarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_buttonRecargarMouseClicked
@@ -422,13 +425,12 @@ public class Ventana extends javax.swing.JFrame {
         textAreaReporte.setText("");
     }
     
-    public void hacerCamino(Nodo hoja){
+    public boolean hacerCamino(Nodo hoja){
         
         String camino = hoja.getCamino();
+        buttonRecargar.setEnabled(true);
         
         if(camino.equals("F")){
-            
-            System.out.println("Falla");
             
             if (personaje.equals("D")) {
 
@@ -445,15 +447,19 @@ public class Ventana extends javax.swing.JFrame {
             
             try {
 
-                Thread.sleep(1000);
-            } catch (InterruptedException ex) {
+                Thread.sleep(2000);
+            } catch (InterruptedException ex){
 
                 Logger.getLogger(Ventana.class.getName()).log(Level.SEVERE, null, ex);
             }
             
             meta(hoja.getEstado());
+            matrizBotones[x][y].setIcon(null);
+            matrizBotones[xf][yf].setIcon(mario);
             
             this.paintAll(this.getGraphics());
+            
+            return false;
         }
         
         else {
@@ -464,11 +470,11 @@ public class Ventana extends javax.swing.JFrame {
 
                 matrizBotones[x][y].setIcon(null);
                 
-                if (values[i].equals("U")) {
+                if (values[i].equals("U")){
 
                     x--;
                 }                 
-                else if (values[i].equals("D")) {
+                else if (values[i].equals("D")){
 
                     x++;
                 }                 
@@ -502,11 +508,11 @@ public class Ventana extends javax.swing.JFrame {
                     Logger.getLogger(Ventana.class.getName()).log(Level.SEVERE, null, ex);
                 }
 
-                this.paintAll(this.getGraphics());
-            }            
-        }
-        
-        buttonRecargar.setEnabled(true);
+                this.paintAll(this.getGraphics());                                                        
+            }  
+            
+            return true;
+        }                
     }        
 
     public static void main(String args[]) {
