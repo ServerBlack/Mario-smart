@@ -216,12 +216,12 @@ public class Ventana extends javax.swing.JFrame {
 
     private void cambiarEstado(){
         
-        mario = new ImageIcon("/home/ivan/NetBeansProjects/Mario-smart/Mario-smart/sources/" + personaje + "/6.png");                
+        mario = new ImageIcon("/home/ivanmtoroc/NetBeansProjects/Mario-smart/Mario-smart/sources/" + personaje + "/6.png");                
     }
     
     private void cambiarTema(){
         
-        labelTema.setIcon(new ImageIcon("/home/ivan/NetBeansProjects/Mario-smart/Mario-smart/sources/" + personaje + "/10.png"));
+        labelTema.setIcon(new ImageIcon("/home/ivanmtoroc/NetBeansProjects/Mario-smart/Mario-smart/sources/" + personaje + "/10.png"));
     
         if(personaje.equals("D")){
             
@@ -235,18 +235,18 @@ public class Ventana extends javax.swing.JFrame {
     
     private void estadoInicial(){
         
-        mario = new ImageIcon("/home/ivan/NetBeansProjects/Mario-smart/Mario-smart/sources/" + personaje + "/2.png");
+        mario = new ImageIcon("/home/ivanmtoroc/NetBeansProjects/Mario-smart/Mario-smart/sources/" + personaje + "/2.png");
     }
     
     private void meta(boolean estado){
         
         if(estado){
          
-            mario = new ImageIcon("/home/ivan/NetBeansProjects/Mario-smart/Mario-smart/sources/" + personaje + "/7.png");
+            mario = new ImageIcon("/home/ivanmtoroc/NetBeansProjects/Mario-smart/Mario-smart/sources/" + personaje + "/7.png");
         }
         else {
                     
-            mario = new ImageIcon("/home/ivan/NetBeansProjects/Mario-smart/Mario-smart/sources/" + personaje + "/8.png");
+            mario = new ImageIcon("/home/ivanmtoroc/NetBeansProjects/Mario-smart/Mario-smart/sources/" + personaje + "/8.png");
         }
     }
     
@@ -265,7 +265,7 @@ public class Ventana extends javax.swing.JFrame {
     
     private void llenarMatriz() throws FileNotFoundException, IOException {
 
-        File archivo = new File("/home/ivan/NetBeansProjects/Mario-smart/Mario-smart/sources/A/Input" + mundo +".txt");
+        File archivo = new File("/home/ivanmtoroc/NetBeansProjects/Mario-smart/Mario-smart/sources/A/Input" + mundo +".txt");
         FileReader fr = new FileReader(archivo);
         BufferedReader br = new BufferedReader(fr);
 
@@ -279,7 +279,7 @@ public class Ventana extends javax.swing.JFrame {
             for (int i = 0; i < 10; i++) { 
                                 
                 matriz[j][i] = Integer.parseInt(values[i]);                
-                ImageIcon imagen = new ImageIcon("/home/ivan/NetBeansProjects/Mario-smart/Mario-smart/sources/" + personaje + "/" + values[i].charAt(0) + ".png"); 
+                ImageIcon imagen = new ImageIcon("/home/ivanmtoroc/NetBeansProjects/Mario-smart/Mario-smart/sources/" + personaje + "/" + values[i].charAt(0) + ".png"); 
                 matrizBotones[j][i].setIcon(imagen);                
 
                 if (matriz[j][i] == 2) {
@@ -427,33 +427,8 @@ public class Ventana extends javax.swing.JFrame {
         String camino = hoja.getCamino();
         
         if(camino.equals("F")){
-            
-            System.out.println("Falla");
-            
-            if (personaje.equals("D")) {
-
-                textAreaReporte.setText(" No existe un camino.\n Pero Goku se puede teletransportar.");
-            } 
-            else {
-
-                textAreaReporte.setText(" No existe un camino.\n Pero Mario tiene un jetpack.");
-            }
-            
-            matrizBotones[x][y].setIcon(new ImageIcon("/home/ivan/NetBeansProjects/Mario-smart/Mario-smart/sources/" + personaje + "/9.png"));
-
-            this.paintAll(this.getGraphics());
-            
-            try {
-
-                Thread.sleep(1000);
-            } catch (InterruptedException ex) {
-
-                Logger.getLogger(Ventana.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            
-            meta(hoja.getEstado());
-            
-            this.paintAll(this.getGraphics());
+                       
+            textAreaReporte.setText(" Se presento una falla, no existe un camino.");
         }
         
         else {
