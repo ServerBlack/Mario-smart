@@ -29,7 +29,7 @@ public class Busqueda {
 
         cola.add(raiz);
 
-        while(!cola.isEmpty()){
+        while(!cola.isEmpty()){            
 
             if(matriz[cola.peek().getX()][cola.peek().getY()] == 5){              
 
@@ -38,7 +38,7 @@ public class Busqueda {
             } 
             else {
 
-                ArrayList<Nodo> hijos = expandirSinDevolverse(cola.peek());
+                ArrayList<Nodo> hijos = expandirSinCiclos(cola.peek());
                 nodosExpandidos++;
                 cola.poll();
                 
@@ -85,7 +85,7 @@ public class Busqueda {
             } 
             else {
 
-                ArrayList<Nodo> hijos = expandirSinDevolverse(cola.get(0));
+                ArrayList<Nodo> hijos = expandirSinCiclos(cola.get(0));
                 nodosExpandidos++;
                 cola.remove(0);
                 
@@ -256,7 +256,7 @@ public class Busqueda {
             } 
             else {
 
-                ArrayList<Nodo> hijos = expandirSinDevolverse(cola.get(0));
+                ArrayList<Nodo> hijos = expandirSinCiclos(cola.get(0));
                 nodosExpandidos++;
                 cola.remove(0);
                 
@@ -292,15 +292,16 @@ public class Busqueda {
 
         // Fallo.
         Nodo hoja = new Nodo(0, 0);
-        hoja.setCamino("F");
+        hoja.setCamino("F");        
 
         return hoja;
     }
 
-    // Metodos para expandir nodos.
-    public ArrayList<Nodo> expandirSinDevolverse(Nodo padre){
+    // Metodo para expandir nodos.   
+    public ArrayList<Nodo> expandirSinCiclos(Nodo padre){
 
         ArrayList<Nodo> hijos = new ArrayList();
+
         int costo;
         boolean estado = false, devolver = false;
         
@@ -315,58 +316,15 @@ public class Busqueda {
             padre.setEstado(true);
             estado = true;                        
         }
-
-        // Si no se desborda la matriz, si no es una pared y si no se devuelve a menos que cambie de estado.
-        // Bajar.
-        if(padre.getX() + 1 >= 0 && padre.getX() + 1 <= 9 && matriz[padre.getX() + 1][padre.getY()] != 1 && (padre.getX() + 1 != padre.getxP() || devolver)){
-
-            Nodo hijo = new Nodo(padre.getX() + 1, padre.getY());
-            hijo.setxP(padre.getX());
-            hijo.setyP(padre.getY());
-            hijo.setCamino(padre.getCamino() + "D,");
-            hijo.setEstado(estado);
-
-            costo = 1;
-
-            // Por si es una tortuga o un Toppo.
-            if(matriz[padre.getX() + 1][padre.getY()] == 4 && !padre.getEstado()){
-
-                costo = 8;
-            }
-
-            hijo.setCosto(padre.getCosto() + costo);
-            hijo.setProfundidad(padre.getProfundidad() + 1);
-            hijos.add(hijo);
-        }
-
-        // Derecha.
-        if(padre.getY() + 1 >= 0 && padre.getY() + 1 <= 9 && matriz[padre.getX()][padre.getY() + 1] != 1 && (padre.getY() + 1 != padre.getyP() || devolver)){
-
-            Nodo hijo = new Nodo(padre.getX(), padre.getY() + 1);
-            hijo.setxP(padre.getX());
-            hijo.setyP(padre.getY());
-            hijo.setCamino(padre.getCamino() + "R,");
-            hijo.setEstado(estado);
-            
-            costo = 1;
-
-            if(matriz[padre.getX()][padre.getY() + 1] == 4 && !padre.getEstado()){
-
-                costo = 8;
-            }
-
-            hijo.setCosto(padre.getCosto() + costo);
-            hijo.setProfundidad(padre.getProfundidad() + 1);
-            hijos.add(hijo);
-        }
-
+        
         // Izquierda.
-        if(padre.getY() - 1 >= 0 && padre.getY() - 1 <= 9 && matriz[padre.getX()][padre.getY() - 1] != 1 && (padre.getY() - 1 != padre.getyP() || devolver)){
+        if(padre.getY() - 1 >= 0 && padre.getY() - 1 <= 9 && matriz[padre.getX()][padre.getY() - 1] != 1 && (!hayCiclos(padre.getX(), padre.getY() - 1, padre) || devolver)){
 
-            Nodo hijo = new Nodo(padre.getX(), padre.getY() - 1);
+            Nodo hijo = new Nodo(padre.getX(), padre.getY() - 1); 
             hijo.setxP(padre.getX());
             hijo.setyP(padre.getY());
-            hijo.setCamino(padre.getCamino() + "L,");
+            hijo.setProfundidad(padre.getProfundidad() + 1);
+            hijo.setCamino(padre.getCamino() + "L,");                      
             hijo.setEstado(estado);
             
             costo = 1;
@@ -382,11 +340,12 @@ public class Busqueda {
         }
 
         // Subir.
-        if (padre.getX() - 1 >= 0 && padre.getX() - 1 <= 9 && matriz[padre.getX() - 1][padre.getY()] != 1 && (padre.getX() - 1 != padre.getxP() || devolver)) {
+        if(padre.getX() - 1 >= 0 && padre.getX() - 1 <= 9 && matriz[padre.getX() - 1][padre.getY()] != 1 && (!hayCiclos(padre.getX() - 1, padre.getY(), padre) || devolver)){
 
             Nodo hijo = new Nodo(padre.getX() - 1, padre.getY());
             hijo.setxP(padre.getX());
             hijo.setyP(padre.getY());
+            hijo.setProfundidad(padre.getProfundidad() + 1);
             hijo.setCamino(padre.getCamino() + "U,");
             hijo.setEstado(estado);
             
@@ -402,46 +361,48 @@ public class Busqueda {
             hijos.add(hijo);
         }
 
-        return hijos;
-    }
-
-    public ArrayList<Nodo> expandirSinCiclos(Nodo padre){
-
-        ArrayList<Nodo> hijos = new ArrayList();
-
-        // Izquierda.
-        if(padre.getY() - 1 >= 0 && padre.getY() - 1 <= 9 && matriz[padre.getX()][padre.getY() - 1] != 1 && !hayCiclos(padre.getX(), padre.getY() - 1, padre)){
-
-            Nodo hijo = new Nodo(padre.getX(), padre.getY() - 1);        
-            hijo.setProfundidad(padre.getProfundidad() + 1);
-            hijo.setCamino(padre.getCamino() + "L,");
-            hijos.add(hijo);
-        }
-
-        // Subir.
-        if(padre.getX() - 1 >= 0 && padre.getX() - 1 <= 9 && matriz[padre.getX() - 1][padre.getY()] != 1 && !hayCiclos(padre.getX() - 1, padre.getY(), padre)){
-
-            Nodo hijo = new Nodo(padre.getX() - 1, padre.getY());           
-            hijo.setProfundidad(padre.getProfundidad() + 1);
-            hijo.setCamino(padre.getCamino() + "U,");
-            hijos.add(hijo);
-        }
-
         // Derecha.
-        if (padre.getY() + 1 >= 0 && padre.getY() + 1 <= 9 && matriz[padre.getX()][padre.getY() + 1] != 1 && !hayCiclos(padre.getX(), padre.getY() + 1, padre)) {
+        if (padre.getY() + 1 >= 0 && padre.getY() + 1 <= 9 && matriz[padre.getX()][padre.getY() + 1] != 1 && (!hayCiclos(padre.getX(), padre.getY() + 1, padre) || devolver)) {
 
-            Nodo hijo = new Nodo(padre.getX(), padre.getY() + 1);          
+            Nodo hijo = new Nodo(padre.getX(), padre.getY() + 1); 
+            hijo.setxP(padre.getX());
+            hijo.setyP(padre.getY());
             hijo.setProfundidad(padre.getProfundidad() + 1);
             hijo.setCamino(padre.getCamino() + "R,");
+            hijo.setEstado(estado);
+            
+            costo = 1;
+
+            if(matriz[padre.getX()][padre.getY() + 1] == 4 && !padre.getEstado()){
+
+                costo = 8;
+            }
+
+            hijo.setCosto(padre.getCosto() + costo);
+            hijo.setProfundidad(padre.getProfundidad() + 1);
             hijos.add(hijo);
         }
 
         // Bajar.
-        if(padre.getX() + 1 >= 0 && padre.getX() + 1 <= 9 && matriz[padre.getX() + 1][padre.getY()] != 1 && !hayCiclos(padre.getX() + 1, padre.getY(), padre)){
+        if(padre.getX() + 1 >= 0 && padre.getX() + 1 <= 9 && matriz[padre.getX() + 1][padre.getY()] != 1 && (!hayCiclos(padre.getX() + 1, padre.getY(), padre) || devolver)){
 
             Nodo hijo = new Nodo(padre.getX() + 1, padre.getY());
+            hijo.setxP(padre.getX());
+            hijo.setyP(padre.getY());
             hijo.setProfundidad(padre.getProfundidad() + 1);
             hijo.setCamino(padre.getCamino() + "D,");
+            hijo.setEstado(estado);
+
+            costo = 1;
+
+            // Por si es una tortuga o un Toppo.
+            if(matriz[padre.getX() + 1][padre.getY()] == 4 && !padre.getEstado()){
+
+                costo = 8;
+            }
+
+            hijo.setCosto(padre.getCosto() + costo);
+            hijo.setProfundidad(padre.getProfundidad() + 1);
             hijos.add(hijo);
         }
 
