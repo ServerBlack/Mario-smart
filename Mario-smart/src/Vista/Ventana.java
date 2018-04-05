@@ -16,7 +16,7 @@ public class Ventana extends javax.swing.JFrame {
     private int y;
     private int xf;
     private int yf;
-    private String personaje;  
+    private String personaje;
     private int mundo;
 
     public Ventana() throws IOException {
@@ -28,7 +28,7 @@ public class Ventana extends javax.swing.JFrame {
         comboBoxBusqueda.addItem("Amplitud");
         comboBoxBusqueda.addItem("Costo uniforme");
         comboBoxBusqueda.addItem("Profundidad evitando ciclos");
-        
+
         personaje = "M";
         mundo = 0;
         textAreaReporte.setEditable(false);
@@ -39,9 +39,9 @@ public class Ventana extends javax.swing.JFrame {
         crearMatriz();
         llenarMatriz();
 
-        estadoInicial();  
+        estadoInicial();
         cambiarTema();
-        
+
         buttonRecargar.setEnabled(false);
     }
 
@@ -216,82 +216,58 @@ public class Ventana extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void cambiarEstado(){
-        
-<<<<<<< HEAD
-        mario = new ImageIcon("/home/ivan/Projects/NetBeansProjects/Mario-smart/Mario-smart/sources/" + personaje + "/6.png");                
-        vacio =new ImageIcon("/home/ivan/Projects/NetBeansProjects/Mario-smart/Mario-smart/sources/" + personaje + "/0.png");                
-=======
-        mario = new ImageIcon("/home/ivanmtoroc/NetBeansProjects/Mario-smart/Mario-smart/sources/" + personaje + "/6.png");                
->>>>>>> e240a30061b10e5b5d6d094339d5c1a5f9469f27
+
+        mario = new ImageIcon("/home/ivan/Projects/NetBeansProjects/Mario-smart/Mario-smart/sources/" + personaje + "/6.png");
+        vacio =new ImageIcon("/home/ivan/Projects/NetBeansProjects/Mario-smart/Mario-smart/sources/" + personaje + "/0.png");
     }
-    
+
     private void cambiarTema(){
-        
-<<<<<<< HEAD
+
         labelTema.setIcon(new ImageIcon("/home/ivan/Projects/NetBeansProjects/Mario-smart/Mario-smart/sources/" + personaje + "/10.png"));
-=======
-        labelTema.setIcon(new ImageIcon("/home/ivanmtoroc/NetBeansProjects/Mario-smart/Mario-smart/sources/" + personaje + "/10.png"));
->>>>>>> e240a30061b10e5b5d6d094339d5c1a5f9469f27
-    
+
         if(personaje.equals("D")){
-            
+
             labelTitulo.setText("Goku smart");
-        }        
+        }
         else {
-            
+
             labelTitulo.setText("Mario smart");
         }
     }
-    
+
     private void estadoInicial(){
-        
-<<<<<<< HEAD
+
         mario = new ImageIcon("/home/ivan/Projects/NetBeansProjects/Mario-smart/Mario-smart/sources/" + personaje + "/2.png");
-=======
-        mario = new ImageIcon("/home/ivanmtoroc/NetBeansProjects/Mario-smart/Mario-smart/sources/" + personaje + "/2.png");
->>>>>>> e240a30061b10e5b5d6d094339d5c1a5f9469f27
     }
-    
+
     private void meta(boolean estado){
-        
+
         if(estado){
-         
-<<<<<<< HEAD
+
             mario = new ImageIcon("/home/ivan/Projects/NetBeansProjects/Mario-smart/Mario-smart/sources/" + personaje + "/7.png");
         }
         else {
-                    
+
             mario = new ImageIcon("/home/ivan/Projects/NetBeansProjects/Mario-smart/Mario-smart/sources/" + personaje + "/8.png");
-=======
-            mario = new ImageIcon("/home/ivanmtoroc/NetBeansProjects/Mario-smart/Mario-smart/sources/" + personaje + "/7.png");
-        }
-        else {
-                    
-            mario = new ImageIcon("/home/ivanmtoroc/NetBeansProjects/Mario-smart/Mario-smart/sources/" + personaje + "/8.png");
->>>>>>> e240a30061b10e5b5d6d094339d5c1a5f9469f27
         }
     }
-    
+
     private void crearMatriz(){
-        
+
         for(int i = 0; i < 10; i++){
-            
+
             for(int j = 0; j < 10; j++){
-                
+
                 JLabel boton = new JLabel();
                 matrizBotones[i][j] = boton;
                 panelMatriz.add(boton);
             }
         }
     }
-    
+
     private void llenarMatriz() throws FileNotFoundException, IOException {
 
-<<<<<<< HEAD
         File archivo = new File("/home/ivan/Projects/NetBeansProjects/Mario-smart/Mario-smart/sources/A/Input" + mundo +".txt");
-=======
-        File archivo = new File("/home/ivanmtoroc/NetBeansProjects/Mario-smart/Mario-smart/sources/A/Input" + mundo +".txt");
->>>>>>> e240a30061b10e5b5d6d094339d5c1a5f9469f27
         FileReader fr = new FileReader(archivo);
         BufferedReader br = new BufferedReader(fr);
 
@@ -302,22 +278,18 @@ public class Ventana extends javax.swing.JFrame {
 
             String[] values = linea.split(" ");
 
-            for (int i = 0; i < 10; i++) { 
-                                
-                matriz[j][i] = Integer.parseInt(values[i]);                
-<<<<<<< HEAD
-                ImageIcon imagen = new ImageIcon("/home/ivan/Projects/NetBeansProjects/Mario-smart/Mario-smart/sources/" + personaje + "/" + values[i].charAt(0) + ".png"); 
-=======
-                ImageIcon imagen = new ImageIcon("/home/ivanmtoroc/NetBeansProjects/Mario-smart/Mario-smart/sources/" + personaje + "/" + values[i].charAt(0) + ".png"); 
->>>>>>> e240a30061b10e5b5d6d094339d5c1a5f9469f27
-                matrizBotones[j][i].setIcon(imagen);                
+            for (int i = 0; i < 10; i++) {
+
+                matriz[j][i] = Integer.parseInt(values[i]);
+                ImageIcon imagen = new ImageIcon("/home/ivan/Projects/NetBeansProjects/Mario-smart/Mario-smart/sources/" + personaje + "/" + values[i].charAt(0) + ".png");
+                matrizBotones[j][i].setIcon(imagen);
 
                 if (matriz[j][i] == 2) {
 
                     x = j;
                     y = i;
                 }
-                
+
                 if (matriz[j][i] == 5) {
 
                     xf = j;
@@ -328,7 +300,7 @@ public class Ventana extends javax.swing.JFrame {
             linea = br.readLine();
             j++;
         }
-        
+
         estadoInicial();
     }
 
@@ -350,50 +322,50 @@ public class Ventana extends javax.swing.JFrame {
 
     private void buttonBuscarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_buttonBuscarMouseClicked
 
-        buttonBuscar.setEnabled(false);        
+        buttonBuscar.setEnabled(false);
 
         Busqueda algoritmos = new Busqueda(matriz);
         Nodo hoja;
-        
+
         long tInicio = System.currentTimeMillis();
-        
+
         if (comboBoxTipo.getSelectedIndex() == 0){
 
             if (comboBoxBusqueda.getSelectedIndex() == 0){
 
                 hoja = algoritmos.amplitud(x, y);
             }
-            
+
             else if (comboBoxBusqueda.getSelectedIndex() == 1){
 
                 hoja = algoritmos.costoUniforme(x, y);
             }
-            
+
             else {
 
                 hoja = algoritmos.profundidad(x, y);
-            }            
+            }
         }
-        
+
         else {
 
             if (comboBoxBusqueda.getSelectedIndex() == 0){
 
                 hoja = algoritmos.avara(x, y, xf, yf);
             }
-            
+
             else {
 
-                hoja = algoritmos.aEstrella(x, y, xf, yf);               
-            }           
+                hoja = algoritmos.aEstrella(x, y, xf, yf);
+            }
         }
-        
+
         long tFinal = System.currentTimeMillis();
-        boolean resultado = hacerCamino(hoja);        
+        boolean resultado = hacerCamino(hoja);
         long tDiferencia = tFinal - tInicio;
-        
+
         if(resultado){
-        
+
             textAreaReporte.setText(" Tiempo de computo: " + tDiferencia + " ms.\n Nodos expandidos: " + algoritmos.getNodosExpandidos() + ".\n Profundidad del arbol: " + algoritmos.getProfundidadArbol() + ".");
         }
     }//GEN-LAST:event_buttonBuscarMouseClicked
@@ -404,24 +376,24 @@ public class Ventana extends javax.swing.JFrame {
     }//GEN-LAST:event_buttonRecargarMouseClicked
 
     private void comboBoxPersonajeItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_comboBoxPersonajeItemStateChanged
-        
+
         if(comboBoxPersonaje.getSelectedIndex() == 0){
-            
+
             personaje = "M";
         }
         else {
-            
+
             personaje = "D";
         }
-        
+
         cambiarTema();
-        recargar();        
+        recargar();
     }//GEN-LAST:event_comboBoxPersonajeItemStateChanged
 
     private void comboBoxInputsItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_comboBoxInputsItemStateChanged
-        
+
         if(comboBoxInputs.getSelectedIndex() == 0){
-            
+
             mundo = 0;
         }
         else if(comboBoxInputs.getSelectedIndex() == 1){
@@ -436,50 +408,49 @@ public class Ventana extends javax.swing.JFrame {
         else {
             mundo = 4;
         }
-        
+
         recargar();
-        
+
     }//GEN-LAST:event_comboBoxInputsItemStateChanged
 
     public void recargar(){
-        
+
         try {
             llenarMatriz();
         } catch (IOException ex) {
             Logger.getLogger(Ventana.class.getName()).log(Level.SEVERE, null, ex);
         }
         this.paintAll(this.getGraphics());
-        
+
         buttonRecargar.setEnabled(false);
         buttonBuscar.setEnabled(true);
         textAreaReporte.setText("");
     }
-    
+
     public boolean hacerCamino(Nodo hoja){
-        
+
         String camino = hoja.getCamino();
         buttonRecargar.setEnabled(true);
-        
+
         if(camino.equals("F")){
-                       
+
             textAreaReporte.setText(" Se presento una falla, no existe un camino.");
-            
-<<<<<<< HEAD
+
             System.out.println("Falla");
-            
+
             if (personaje.equals("D")) {
 
                 textAreaReporte.setText(" No existe un camino.\n Pero Goku se puede teletransportar.");
-            } 
+            }
             else {
 
                 textAreaReporte.setText(" No existe un camino.\n Pero Mario tiene un jetpack.");
             }
-            
+
             matrizBotones[x][y].setIcon(new ImageIcon("/home/ivan/NetBeansProjects/Projects/Mario-smart/Mario-smart/sources/" + personaje + "/9.png"));
 
             this.paintAll(this.getGraphics());
-            
+
             try {
 
                 Thread.sleep(1000);
@@ -487,15 +458,12 @@ public class Ventana extends javax.swing.JFrame {
 
                 Logger.getLogger(Ventana.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
+
             meta(hoja.getEstado());
-            
+
             this.paintAll(this.getGraphics());
-=======
-            return false;
->>>>>>> e240a30061b10e5b5d6d094339d5c1a5f9469f27
         }
-        
+
         else {
 
             String[] values = camino.split(",");
@@ -503,66 +471,58 @@ public class Ventana extends javax.swing.JFrame {
             for (int i = 0; i < values.length; i++){
 
                 matrizBotones[x][y].setIcon(null);
-                
+
                 if (values[i].equals("U")){
 
                     x--;
-                }                 
+                }
                 else if (values[i].equals("D")){
 
                     x++;
-                }                 
+                }
                 else if (values[i].equals("R")) {
 
                     y++;
-                }                
+                }
                 else {
 
                     y--;
                 }
-                
+
                 if(matriz[x][y] == 3){
-                    
+
                     cambiarEstado();
                 }
-                
+
                 if(matriz[x][y] == 5){
-                    
+
                     meta(hoja.getEstado());
                 }
-                
+
                 matrizBotones[x][y].setIcon(mario);
 
                 try {
 
                     Thread.sleep(1000);
-                }                 
+                }
                 catch (InterruptedException ex){
 
                     Logger.getLogger(Ventana.class.getName()).log(Level.SEVERE, null, ex);
                 }
 
-<<<<<<< HEAD
-                
+
                 this.update(this.getGraphics());
-            }            
+            }
         }
-        
+
         buttonRecargar.setEnabled(true);
-=======
-                this.paintAll(this.getGraphics());                                                        
-            }  
-            
-            return true;
-        }                
->>>>>>> e240a30061b10e5b5d6d094339d5c1a5f9469f27
-    }        
+    }
 
     public static void main(String args[]) {
 
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
