@@ -11,6 +11,7 @@ public class Ventana extends javax.swing.JFrame {
     private int[][] matriz = new int[10][10];
     private JLabel[][] matrizBotones = new JLabel[10][10];
     private ImageIcon mario;
+    private ImageIcon vacio;
     private int x;
     private int y;
     private int xf;
@@ -216,12 +217,13 @@ public class Ventana extends javax.swing.JFrame {
 
     private void cambiarEstado(){
         
-        mario = new ImageIcon("/home/ivan/NetBeansProjects/Mario-smart/Mario-smart/sources/" + personaje + "/6.png");                
+        mario = new ImageIcon("/home/ivan/Projects/NetBeansProjects/Mario-smart/Mario-smart/sources/" + personaje + "/6.png");                
+        vacio =new ImageIcon("/home/ivan/Projects/NetBeansProjects/Mario-smart/Mario-smart/sources/" + personaje + "/0.png");                
     }
     
     private void cambiarTema(){
         
-        labelTema.setIcon(new ImageIcon("/home/ivan/NetBeansProjects/Mario-smart/Mario-smart/sources/" + personaje + "/10.png"));
+        labelTema.setIcon(new ImageIcon("/home/ivan/Projects/NetBeansProjects/Mario-smart/Mario-smart/sources/" + personaje + "/10.png"));
     
         if(personaje.equals("D")){
             
@@ -235,18 +237,18 @@ public class Ventana extends javax.swing.JFrame {
     
     private void estadoInicial(){
         
-        mario = new ImageIcon("/home/ivan/NetBeansProjects/Mario-smart/Mario-smart/sources/" + personaje + "/2.png");
+        mario = new ImageIcon("/home/ivan/Projects/NetBeansProjects/Mario-smart/Mario-smart/sources/" + personaje + "/2.png");
     }
     
     private void meta(boolean estado){
         
         if(estado){
          
-            mario = new ImageIcon("/home/ivan/NetBeansProjects/Mario-smart/Mario-smart/sources/" + personaje + "/7.png");
+            mario = new ImageIcon("/home/ivan/Projects/NetBeansProjects/Mario-smart/Mario-smart/sources/" + personaje + "/7.png");
         }
         else {
                     
-            mario = new ImageIcon("/home/ivan/NetBeansProjects/Mario-smart/Mario-smart/sources/" + personaje + "/8.png");
+            mario = new ImageIcon("/home/ivan/Projects/NetBeansProjects/Mario-smart/Mario-smart/sources/" + personaje + "/8.png");
         }
     }
     
@@ -265,7 +267,7 @@ public class Ventana extends javax.swing.JFrame {
     
     private void llenarMatriz() throws FileNotFoundException, IOException {
 
-        File archivo = new File("/home/ivan/NetBeansProjects/Mario-smart/Mario-smart/sources/A/Input" + mundo +".txt");
+        File archivo = new File("/home/ivan/Projects/NetBeansProjects/Mario-smart/Mario-smart/sources/A/Input" + mundo +".txt");
         FileReader fr = new FileReader(archivo);
         BufferedReader br = new BufferedReader(fr);
 
@@ -279,7 +281,7 @@ public class Ventana extends javax.swing.JFrame {
             for (int i = 0; i < 10; i++) { 
                                 
                 matriz[j][i] = Integer.parseInt(values[i]);                
-                ImageIcon imagen = new ImageIcon("/home/ivan/NetBeansProjects/Mario-smart/Mario-smart/sources/" + personaje + "/" + values[i].charAt(0) + ".png"); 
+                ImageIcon imagen = new ImageIcon("/home/ivan/Projects/NetBeansProjects/Mario-smart/Mario-smart/sources/" + personaje + "/" + values[i].charAt(0) + ".png"); 
                 matrizBotones[j][i].setIcon(imagen);                
 
                 if (matriz[j][i] == 2) {
@@ -439,7 +441,7 @@ public class Ventana extends javax.swing.JFrame {
                 textAreaReporte.setText(" No existe un camino.\n Pero Mario tiene un jetpack.");
             }
             
-            matrizBotones[x][y].setIcon(new ImageIcon("/home/ivan/NetBeansProjects/Mario-smart/Mario-smart/sources/" + personaje + "/9.png"));
+            matrizBotones[x][y].setIcon(new ImageIcon("/home/ivan/NetBeansProjects/Projects/Mario-smart/Mario-smart/sources/" + personaje + "/9.png"));
 
             this.paintAll(this.getGraphics());
             
@@ -502,7 +504,8 @@ public class Ventana extends javax.swing.JFrame {
                     Logger.getLogger(Ventana.class.getName()).log(Level.SEVERE, null, ex);
                 }
 
-                this.paintAll(this.getGraphics());
+                
+                this.update(this.getGraphics());
             }            
         }
         
